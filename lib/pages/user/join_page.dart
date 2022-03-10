@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_blog/components/custom_elevated_button.dart';
 import 'package:flutter_blog/components/custom_text_form_field.dart';
 import 'package:flutter_blog/pages/user/login_page.dart';
+import 'package:flutter_blog/util/validator_util.dart';
 import 'package:get/get.dart';
 
 class JoinPage extends StatelessWidget {
@@ -35,24 +36,29 @@ class JoinPage extends StatelessWidget {
           // 이 세개의 text를 한꺼번에 스프링 서버쪽으로 날리기 위해서 form 으로 묶음
           CustomTextFormField(
             hint: "Username",
-            funcValidator: (value) {
-              print(value);
-            },
+            funcValidator: validateUsername(),
           ),
           CustomTextFormField(
             hint: "Password",
-            funcValidator: (value) {},
+            funcValidator: validatePassword(),
           ),
           CustomTextFormField(
             hint: "Email",
-            funcValidator: (value) {},
+            funcValidator: validateEmail(),
           ),
           CustomElevatedButton(
             text: "회원가입",
             funcPageRoute: () {
-              _formKey.currentState!.validate();
+              if (_formKey.currentState!.validate()) {
+                Get.to(LoginPage());
+              }
+            },
+          ),
+          TextButton(
+            onPressed: () {
               Get.to(LoginPage());
             },
+            child: Text("이미 회원가입이 되어있나요?"),
           ),
         ],
       ),
